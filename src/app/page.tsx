@@ -1,9 +1,10 @@
-import Image from "next/image";
-
+import Page from "./(auth)/register/page";
 export default function Home() {
   return (
     <>
-      <div>main page</div>
+      <div>
+        <Page />
+      </div>
     </>
   );
 }

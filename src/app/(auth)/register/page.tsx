@@ -57,7 +57,7 @@ function Register() {
 
   const onSubmit = async (val: FormValues): Promise<void> => {
     try {
-      const response = await axios.post(`${BASE_URL}/register`, val);
+      const response = await axios.post(`${BASE_URL}/auth/register`, val);
       const user: User = response.data;
       if (user) {
         toast("Хэрэглэгч амжилттай бүртгэгдлээ.", {
@@ -97,7 +97,7 @@ function Register() {
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="Enter your username "
+                          placeholder="Нэвтрэх нэрээ оруулна уу..."
                           type="text"
                           className="focus-visible:ring-0 border-gray-400"
                         />
@@ -117,7 +117,7 @@ function Register() {
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="Enter  your email"
+                          placeholder="Емайлээ оруулна уу..."
                           className="focus-visible:ring-0 border-gray-400"
                         />
                       </FormControl>
@@ -136,7 +136,7 @@ function Register() {
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="Enter  your password"
+                          placeholder="Нууц үгээ оруулна уу..."
                           type="password"
                           className="focus-visible:ring-0 border-gray-400"
                         />
@@ -156,7 +156,7 @@ function Register() {
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="Enter  your confirmpassword"
+                          placeholder="Нууц үгээ баталгаажуулна уу..."
                           type="password"
                           className="focus-visible:ring-0 border-gray-400"
                         />
@@ -171,11 +171,18 @@ function Register() {
                   control={form.control}
                   name="role"
                   render={({ field }) => (
-                    <FormItem className="h-[38px] border-[1px] rounded-md border-gray-400">
+                    <FormItem className="h-[38px] border-[1px] rounded-md border-gray-400 text-[14px] pl-2 focus-visible:ring-0">
                       <FormControl>
-                        <select {...field} className="border-gray-400 ">
-                          <option value="USER">Хэрэглэгч</option>
-                          <option value="ADMIN">Админ</option>
+                        <select
+                          {...field}
+                          className="border-gray-400  focus-visible:ring-0 text-gray-500"
+                        >
+                          <option className="text-[12px]" value="USER">
+                            Хэрэглэгч
+                          </option>
+                          <option className="text-[12px]" value="ADMIN">
+                            Админ
+                          </option>
                         </select>
                       </FormControl>
                       <FormMessage className="text-red-600" />
@@ -197,9 +204,9 @@ function Register() {
         {" "}
         <Image
           src={`/history_mongolia.jpg`}
-          width={800}
+          width={700}
           height={300}
-          className="h-[700px] object-fit bg-no-repeat rounded-md mr-[20px] border-[2px] border-blue-500"
+          className="h-[600px] object-fit bg-no-repeat rounded-md mr-[30px] border-[2px] border-blue-500"
           alt="bg-image"
         />
       </div>

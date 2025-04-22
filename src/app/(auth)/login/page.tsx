@@ -45,7 +45,7 @@ function Login() {
 
   const onSubmit = async (val: FormValues): Promise<void> => {
     try {
-      const response = await axios.post(`${BASE_URL}/login`, val);
+      const response = await axios.post(`${BASE_URL}/auth/login`, val);
       if (response.data) {
         toast("Амжилттай нэвтэрлээ", { duration: 3000 });
       }
@@ -88,7 +88,7 @@ function Login() {
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="Enter your username "
+                          placeholder="Нэвтрэх нэрээ оруулна уу"
                           type="text"
                           className="focus-visible:ring-0 border-gray-400"
                         />
@@ -108,7 +108,7 @@ function Login() {
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="Enter  your password"
+                          placeholder="Нууц үгээ оруулна уу"
                           type="password"
                           className="focus-visible:ring-0 border-gray-400"
                         />
