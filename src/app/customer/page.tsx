@@ -59,7 +59,7 @@ function page() {
   }, []);
 
   const plugin = React.useRef(
-    Autoplay({ delay: 1000, stopOnInteraction: false })
+    Autoplay({ delay: 2000, stopOnInteraction: false })
   );
   return (
     <div>
@@ -165,10 +165,6 @@ function page() {
             </div>
           ))}
         </div>
-      </div>
-      <div className="bg-blue-600 h-[80px] w-full mt-[20px] flex text-white justify-center items-center">
-        <p>Хөгжүүлэлт хийсэн Оюун-Эрдэнэ.</p>
-        <p>Бүх эрх хуулиар хамгаалагдав. 2025.4/24</p>
       </div>
     </div>
   );
