@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -133,16 +134,17 @@ function Page() {
           </div>{" "}
           <table className="border w-[1140px] mt-[20px] rounded-md border-blue-600 ">
             {geoInfo.map((el, index) => (
-              <div key={index} className="h-auto ">
-                <tr className="flex  justify-between border-b  border-blue-600 ">
-                  <td className=" w-[300px] border-r  border-blue-600 flex justify-center items-center">
-                    {el.title}
-                  </td>
-                  <td className="w-[720px] h-[70px] overflow-scroll  no-scrollbar m-2 ">
-                    {el.content}
-                  </td>
-                </tr>
-              </div>
+              <tr
+                key={index}
+                className="flex  justify-between border-b  border-blue-600 "
+              >
+                <td className=" w-[300px] border-r  border-blue-600 flex justify-center items-center">
+                  {el.title}
+                </td>
+                <td className="w-[720px] h-[70px] overflow-scroll  no-scrollbar m-2 ">
+                  {el.content}
+                </td>
+              </tr>
             ))}
           </table>
         </div>

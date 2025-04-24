@@ -19,7 +19,9 @@ import axios from "axios";
 
 function Register() {
   const router = useRouter();
-
+  const handleToLogin = () => {
+    router.push("/login");
+  };
   const formSchema = z
     .object({
       email: z.string().email(),
@@ -196,6 +198,12 @@ function Register() {
               >
                 Үргэлжлүүлэх
               </Button>
+            </div>
+            <div
+              className="text-blue-600 text-[14px] mt-1 ml-[330px] border-b w-[52px] cursor-pointer"
+              onClick={handleToLogin}
+            >
+              Нэвтрэх
             </div>
           </form>
         </Form>

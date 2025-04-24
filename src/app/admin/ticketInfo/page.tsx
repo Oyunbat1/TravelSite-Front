@@ -26,10 +26,10 @@ export default function Page() {
   const [arrival_location, setArrival_location] = useState("");
   const [ticket, setTickets] = useState<FormValues[]>([]);
   const [successMessageTicket, setSuccessMessageTicket] = useState("");
-
+  console.log(ticket);
   const fetchTickets = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/tickets`);
+      const response = await fetch(`${BASE_URL}/tickets/get`);
       const data = await response.json();
       setTickets(data.created);
     } catch (err) {

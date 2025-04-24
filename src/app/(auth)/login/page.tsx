@@ -16,11 +16,14 @@ import {
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
+import { ChevronLeft } from "lucide-react";
 import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 function Login() {
   const router = useRouter();
-
+  const handleToRegister = () => {
+    router.push("/register");
+  };
   const formSchema = z.object({
     username: z.string().min(2).max(50),
     password: z.string().min(8),
@@ -68,6 +71,13 @@ function Login() {
       <div className="w-[500px]   ml-[160px]">
         {" "}
         <div className="mb-[30px]">
+          <div
+            onClick={handleToRegister}
+            className="border w-[34px] p-1 rounded-md cursor-pointer hover:bg-gray-200
+          "
+          >
+            <ChevronLeft />
+          </div>
           <h1 className="text-[34px] font-[600]">Нэвтрэх</h1>
           <p className="text-[14px] font-[400] text-gray-400">
             Тавтай морилно уу...

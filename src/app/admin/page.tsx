@@ -1,7 +1,11 @@
 import React from "react";
-
+import Page from "./geographyInfo/page";
 function page() {
-  return <></>;
+  return (
+    <>
+      <Page />
+    </>
+  );
 }
 
 export default page;
