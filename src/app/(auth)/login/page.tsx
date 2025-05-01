@@ -50,6 +50,7 @@ function Login() {
     try {
       const response = await axios.post(`${BASE_URL}/auth/login`, val);
       if (response.data) {
+        localStorage.setItem("token", response.data.token);
         toast("Амжилттай нэвтэрлээ", { duration: 3000 });
       }
       interface CustomJwtPayload extends JwtPayload {

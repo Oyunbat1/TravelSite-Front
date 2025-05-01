@@ -12,10 +12,12 @@ import {
 import { useState, useEffect } from "react";
 import axios from "axios";
 import BASE_URL from "@/constants";
+import Header from "./components/Header";
 interface FormValues {
   price: string;
   travel_type: string;
   arrival_location: string;
+  travel_image: string;
 }
 interface GeoInfo {
   title: string;
@@ -63,6 +65,7 @@ function page() {
   );
   return (
     <div>
+      <Header />
       <div className="w-screen h-screen flex justify-center items-center z-10 bg-slate-200">
         {" "}
         <Carousel
@@ -104,18 +107,28 @@ function page() {
               className="w-[300px] h-[360px] rounded-md bg-slate-300 flex flex-col shadow-xl hover:shadow-2xl justify-around items-center transform translate-y-0  hover:-translate-y-2 transition-transform duration-300 ease-in-out"
               key={index}
             >
-              <h1 className="text-[24px] text-blue-600">
-                {el.arrival_location}
-              </h1>
-              <div className="flex flex-col gap-1">
+              <Image
+                src={`data:image/png;base64,${el.travel_image}`}
+                alt="image"
+                width={300}
+                height={200}
+                className="rounded-md w-full h-full object-cover opacity-60"
+              />
+              <div className="absolute ">
                 {" "}
-                <div>
-                  Зорчих тээввэр:{" "}
-                  <span className="text-blue-600">{el.travel_type}</span>
-                </div>
-                <div>
-                  Аялалын зардал:{" "}
-                  <span className="text-blue-600">{el.price}</span>
+                <h1 className="text-[32px] font-[800] text-white">
+                  {el.arrival_location}
+                </h1>
+                <div className="flex flex-col gap-1 bg-white px-[6px] rounded-md">
+                  {" "}
+                  <div>
+                    Зорчих тээввэр:{" "}
+                    <span className="text-blue-600">{el.travel_type}</span>
+                  </div>
+                  <div>
+                    Аялалын зардал:{" "}
+                    <span className="text-blue-600">{el.price}</span>
+                  </div>
                 </div>
               </div>
             </div>

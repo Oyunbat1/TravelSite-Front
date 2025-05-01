@@ -1,4 +1,4 @@
-import Page from "./(auth)/register/page";
+import Page from "./customer/page";
 export default function Home() {
   return (
     <>

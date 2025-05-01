@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import BASE_URL from "@/constants";
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import {
   Form,
   FormControl,
@@ -25,6 +26,8 @@ interface FormValues {
   FavoriteTravelName: string;
 }
 function page() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  console.log("register hesgiin", isLoggedIn);
   const formSchema = z.object({
     username: z.string().min(2).max(50),
     email: z.string().email(),
@@ -34,6 +37,10 @@ function page() {
     travelName: z.string().min(2).max(50),
     FavoriteTravelName: z.string().min(2).max(50),
   });
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,6 +55,17 @@ function page() {
 
   const onSubmit = async (val: FormValues): Promise<void> => {
     try {
+      if (!isLoggedIn) {
+        toast.error("Та нэвтэрч орно уу.", {
+          duration: 3000,
+          action: {
+            label: "Нэвтрэх",
+            onClick: () => (window.location.href = "/login"),
+          },
+        });
+        return;
+      }
+
       const response = await axios.post(
         `${BASE_URL}/customerRegistration/create`,
         val

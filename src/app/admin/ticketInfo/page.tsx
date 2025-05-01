@@ -25,8 +25,14 @@ export default function Page() {
   const [travel_type, setTravel_type] = useState("");
   const [arrival_location, setArrival_location] = useState("");
   const [ticket, setTickets] = useState<FormValues[]>([]);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [successMessageTicket, setSuccessMessageTicket] = useState("");
   console.log(ticket);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
   const fetchTickets = async () => {
     try {
       const response = await fetch(`${BASE_URL}/tickets/get`);
@@ -41,27 +47,33 @@ export default function Page() {
   }, []);
 
   const handleAddTicket = async () => {
-    if (!travel_type || !price || !arrival_location) return;
+    if (!travel_type || !price || !arrival_location || !selectedFile) return;
 
     try {
+      const formData = new FormData();
+      formData.append("travel_type", travel_type);
+      formData.append("price", price);
+      formData.append("arrival_location", arrival_location);
+      formData.append("travel_image", selectedFile);
+
       const response = await fetch(`${BASE_URL}/tickets/create`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          price: price,
-          arrival_location: arrival_location,
-          travel_type: travel_type,
-        }),
+        body: formData, // Don't set Content-Type header, browser will set it automatically
       });
+
       if (!response.ok) {
-        throw new Error("Failed to add category");
+        throw new Error("Failed to add ticket");
       }
 
-      setArrival_location(""), setPrice(""), setTravel_type("");
-      setSuccessMessageTicket("New ticket is being added ");
+      setArrival_location("");
+      setPrice("");
+      setTravel_type("");
+      setSelectedFile(null);
+      setSuccessMessageTicket("New ticket is being added");
       setTimeout(() => setSuccessMessageTicket(""), 2000);
+      fetchTickets(); // Refresh the ticket list
     } catch (err) {
-      console.error("Error adding category:", err);
+      console.error("Error adding ticket:", err);
     }
   };
   return (
@@ -76,9 +88,8 @@ export default function Page() {
           Тасалбарын мэдээлэл оруулах
         </h1>
         <form className="p-[20px]">
-          <div className="flex  flex-col  gap-4 items-center">
-            <div className="flex gap-4">
-              {" "}
+          <div className="flex  flex-col  gap-4 items-start justify-center">
+            <div className="flex flex-col  gap-4">
               <div className="flex flex-col gap-1">
                 <Label htmlFor="travel_type">Аялалын төрөлөө оруулна уу</Label>
                 <Popover>
@@ -120,6 +131,16 @@ export default function Page() {
                   className="focus-visible:ring-0 w-[400px]"
                   placeholder="Аялалын үнэ"
                   onChange={(el) => setPrice(el.target.value)}
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <Label htmlFor="travel_image">Зураг оруулах</Label>
+                <Input
+                  type="file"
+                  id="travel_image"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="w-[400px]"
                 />
               </div>
             </div>

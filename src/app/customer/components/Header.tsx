@@ -5,7 +5,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 function Header() {
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
   const handleScroll = () => {
     setScrolled(window.scrollY > 50);
   };
@@ -59,6 +64,26 @@ function Header() {
                 <span className="absolute left-0 -bottom-0.5 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
               </a>
             </li>
+            <li className="relative group">
+              <a
+                href={isLoggedIn ? "#" : "/login"}
+                className="inline-block transition-colors duration-300 text-white"
+              >
+                {" "}
+                {isLoggedIn ? "Профайл" : "Нэвтрэх"}
+              </a>
+            </li>
+            {isLoggedIn && (
+              <button
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  window.location.href = "/login";
+                }}
+                className="text-white hover:text-red-300"
+              >
+                Гарах
+              </button>
+            )}
           </ul>
         </nav>
       </div>
