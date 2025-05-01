@@ -10,3 +10,7 @@
       display: none; /* Chrome, Safari, Opera */
     }
   }
+  .custom-stroke {
+    -webkit-text-stroke: 1px black;
+    text-stroke: 1px black; /* fallback */
+  }
