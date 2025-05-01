@@ -14,6 +14,7 @@ import axios from "axios";
 import BASE_URL from "@/constants";
 import Header from "./components/Header";
 import Link from "next/link";
+import Page from "../googlemapkey/page";
 interface FormValues {
   _id: number;
   price: string;
@@ -172,6 +173,7 @@ function page() {
           </div>
         </div>
       </div>
+      <Page></Page>
       <div className="w-full h-auto flex flex-col items-center justify-center border-b border-b-blue-600">
         <h1 className="text-[32px]">Газарзүйн мэдээлэл</h1>
         <div className="pb-[30px]">
