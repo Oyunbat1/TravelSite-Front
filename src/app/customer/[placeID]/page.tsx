@@ -1,7 +1,6 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import Link from "next/link";
 import axios from "axios";
 import BASE_URL from "@/constants";
 import { useState, useEffect } from "react";
@@ -13,48 +12,75 @@ interface FormValues {
   travel_type: string;
   arrival_location: string;
   travel_image: string;
+  travel_detail: string;
+  travel_distance: string;
+  zoneName: string;
 }
 
 function Page() {
-  const [keepTickets, setKeepTickets] = useState<FormValues[]>([]);
+  const [ticket, setTicket] = useState<FormValues | null>(null);
   const { placeID } = useParams();
-  const selectedPlace = keepTickets.find(
-    (item) => String(item._id) === placeID
-  );
-  console.log("Selected Place:", selectedPlace);
 
   useEffect(() => {
-    const fetchAll = async () => {
+    const fetchTicketById = async () => {
       try {
-        const ticketsRes = await axios.get(`${BASE_URL}/tickets/get`);
-        setKeepTickets(ticketsRes.data.created);
+        const res = await axios.get(`${BASE_URL}/zoning/withProvinces`);
+        const zones = res.data?.zoningCategories;
+
+        if (!Array.isArray(zones)) {
+          console.error("zones is not an array:", zones);
+          return;
+        }
+
+        // Flatten all tickets from all zones
+        const allTickets: FormValues[] = zones.flatMap(
+          (zone: any) => zone.tickets || []
+        );
+
+        // Find the ticket by ID
+        const foundTicket = allTickets.find(
+          (item) => String(item._id) === String(placeID)
+        );
+
+        setTicket(foundTicket || null);
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching ticket:", err);
       }
     };
 
-    fetchAll();
-  }, []);
+    fetchTicketById();
+  }, [placeID]);
 
   return (
-    <div className="w-screen h-screen bg-slate-400 p-6 text-white">
-      {selectedPlace ? (
-        <div className="w-[800px] h-[600px] bg-white p-4 rounded mt-[100px]">
-          <img
-            src={`data:image/png;base64,${selectedPlace.travel_image}`}
-            alt={selectedPlace.arrival_location}
-            className="w-[400px] h-48 object-cover rounded"
-          />
-          <h1 className="text-2xl font-bold mt-4 text-black">
-            {selectedPlace.arrival_location}
-          </h1>
-          <p className="text-lg text-black">Price: {selectedPlace.price}</p>
-          <p className="text-sm text-black">
-            Type: {selectedPlace.travel_type}
-          </p>
+    <div className="w-screen h-screen bg-slate-400 p-6 text-white flex justify-center items-center">
+      {ticket ? (
+        <div className="w-[300px] h-[400px] bg-white p-4 rounded shadow-xl mt-[100px] flex">
+          <div>
+            {" "}
+            <img
+              src={`data:image/png;base64,${ticket.travel_image}`}
+              alt={ticket.arrival_location}
+              className="w-[200px] h-64 object-cover rounded"
+            />
+            <h1 className="text-3xl font-bold mt-4 text-black">
+              {ticket.arrival_location}
+            </h1>
+            <p className="text-xl text-black mt-2">
+              Аялалын төрөл: {ticket.travel_type}
+            </p>
+            <p className="text-lg text-black mt-1">Үнэ: {ticket.price}₮</p>
+            <p className="text-lg text-black mt-1">
+              Км: {ticket.travel_distance}
+            </p>
+          </div>
+          <div>
+            <p className="text-xl text-black">{ticket.travel_detail}</p>
+          </div>
         </div>
       ) : (
-        <p className="mt-[100px]">Уншиж байна...</p>
+        <p className="text-xl text-white">
+          Тасалбарын мэдээлэл ачааллаж байна...
+        </p>
       )}
     </div>
   );

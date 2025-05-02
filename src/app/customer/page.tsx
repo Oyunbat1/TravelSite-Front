@@ -21,6 +21,8 @@ interface FormValues {
   travel_type: string;
   arrival_location: string;
   travel_image: string;
+  zoneName: string;
+  tickets: Array<FormValues>;
 }
 interface GeoInfo {
   title: string;
@@ -46,12 +48,12 @@ const TravelItems = [
 function page() {
   const [keepTickets, setKeepTickets] = useState<FormValues[]>([]);
   const [geoInfo, setGeoInfo] = useState<GeoInfo[]>([]);
-
+  console.log(keepTickets);
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const ticketsRes = await axios.get(`${BASE_URL}/tickets/get`);
-        setKeepTickets(ticketsRes.data.created);
+        const ticketsRes = await axios.get(`${BASE_URL}/zoning/withProvinces`);
+        setKeepTickets(ticketsRes.data.zoningCategories);
 
         const geoRes = await axios.get(`${BASE_URL}/info/get`);
         setGeoInfo(geoRes.data.created);
@@ -106,6 +108,46 @@ function page() {
         "
         >
           {keepTickets.slice(0, 4).map((el, index) => (
+            <div key={index} className="flex flex-col items-center">
+              <h1 className="text-[22px] mb-[40px] font-bold">{el.zoneName}</h1>
+              {el.tickets.slice(0, 1).map((ticket, index) => (
+                <Link href={`/customer/${ticket._id}`} key={index}>
+                  <div
+                    className="w-[300px] h-[360px] rounded-md bg-slate-300 flex flex-col shadow-xl hover:shadow-2xl justify-around items-center transform translate-y-0  hover:-translate-y-2 transition-transform duration-300 ease-in-out"
+                    key={index}
+                  >
+                    <Image
+                      src={`data:image/png;base64,${ticket.travel_image}`}
+                      alt="image"
+                      width={300}
+                      height={200}
+                      className="rounded-md w-full h-full object-cover opacity-80"
+                    />
+                    <div className="absolute ">
+                      {" "}
+                      <h1 className="text-[32px] font-[800] text-white  custom-stroke">
+                        {ticket.arrival_location}
+                      </h1>
+                      <div className="flex flex-col gap-1 bg-white px-[6px] rounded-md">
+                        {" "}
+                        <div>
+                          Зорчих тээввэр:{" "}
+                          <span className="text-blue-600">
+                            {ticket.travel_type}
+                          </span>
+                        </div>
+                        <div>
+                          Аялалын зардал:{" "}
+                          <span className="text-blue-600">{ticket.price}</span>$
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ))}
+          {/* {keepTickets.slice(0, 4).map((el, index) => (
             <Link href={`/customer/${el._id}`} key={index}>
               <div
                 className="w-[300px] h-[360px] rounded-md bg-slate-300 flex flex-col shadow-xl hover:shadow-2xl justify-around items-center transform translate-y-0  hover:-translate-y-2 transition-transform duration-300 ease-in-out"
@@ -137,7 +179,7 @@ function page() {
                 </div>
               </div>
             </Link>
-          ))}
+          ))} */}
         </div>
       </div>
       <div className="w-screen h-[400px] border-b  border-b-blue-600 mb-[20px]  bg-gray-100">
