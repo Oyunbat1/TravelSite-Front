@@ -19,6 +19,7 @@ interface FormValues {
 
 function Page() {
   const [ticket, setTicket] = useState<FormValues | null>(null);
+  console.log(ticket);
   const { placeID } = useParams();
 
   useEffect(() => {
@@ -54,27 +55,34 @@ function Page() {
   return (
     <div className="w-screen h-screen bg-slate-400 p-6 text-white flex justify-center items-center">
       {ticket ? (
-        <div className="w-[300px] h-[400px] bg-white p-4 rounded shadow-xl mt-[100px] flex">
+        <div className="w-[300px] h-[400px] bg-white p-4 rounded shadow-xl mt-[100px] flex relative">
           <div>
             {" "}
             <img
               src={`data:image/png;base64,${ticket.travel_image}`}
               alt={ticket.arrival_location}
-              className="w-[200px] h-64 object-cover rounded"
+              className="w-[300px] h-full object-cover rounded opacity-30"
             />
-            <h1 className="text-3xl font-bold mt-4 text-black">
-              {ticket.arrival_location}
-            </h1>
-            <p className="text-xl text-black mt-2">
-              Аялалын төрөл: {ticket.travel_type}
-            </p>
-            <p className="text-lg text-black mt-1">Үнэ: {ticket.price}₮</p>
-            <p className="text-lg text-black mt-1">
-              Км: {ticket.travel_distance}
-            </p>
+            <div className="absolute top-[40px] left-[55px]">
+              {" "}
+              <h1 className="text-4xl font-normal mt-4 text-gray-600 mb-[80px]">
+                {ticket.arrival_location}
+              </h1>
+              <p className="text-xl text-black mt-2">
+                Аялалын төрөл:{" "}
+                <span className="text-blue-600">{ticket.travel_type}</span>
+              </p>
+              <p className="text-lg text-black mt-1">
+                Үнэ: <span className="text-blue-600">{ticket.price}₮</span>
+              </p>
+              <p className="text-lg text-black mt-1">
+                Км:{" "}
+                <span className="text-blue-600">{ticket.travel_distance}</span>
+              </p>
+            </div>
           </div>
           <div>
-            <p className="text-xl text-black">{ticket.travel_detail}</p>
+            {/* <p className="text-xl text-black">{ticket.travel_detail}</p> */}
           </div>
         </div>
       ) : (

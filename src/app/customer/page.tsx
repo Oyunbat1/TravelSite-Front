@@ -48,7 +48,7 @@ const TravelItems = [
 function page() {
   const [keepTickets, setKeepTickets] = useState<FormValues[]>([]);
   const [geoInfo, setGeoInfo] = useState<GeoInfo[]>([]);
-  console.log(keepTickets);
+
   useEffect(() => {
     const fetchAll = async () => {
       try {
@@ -138,7 +138,7 @@ function page() {
                         </div>
                         <div>
                           Аялалын зардал:{" "}
-                          <span className="text-blue-600">{ticket.price}</span>$
+                          <span className="text-blue-600">{ticket.price}</span>₮
                         </div>
                       </div>
                     </div>
