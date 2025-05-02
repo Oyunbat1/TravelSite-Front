@@ -37,7 +37,7 @@ function Header() {
         <div className="flex items-center gap-1" onClick={handleToHomePage}>
           <h1 className="text-[32px] font-bold text-white cursor-pointer">
             {" "}
-            Oyun
+            Эрдэнэ
           </h1>
           <Plane className="text-[32px] mt-1 text-white" />
         </div>

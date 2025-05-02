@@ -14,6 +14,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Wallpaper, Ticket } from "lucide-react";
+
 const items = [
   {
     id: 1,
@@ -25,6 +26,12 @@ const items = [
     id: 2,
     title: "Газарзүйн мэдээлэл",
     url: "/admin/geographyInfo",
+    icon: Wallpaper,
+  },
+  {
+    id: 3,
+    title: "Бүсчлэлийн мэдээлэл",
+    url: "/admin/zoningInfo",
     icon: Wallpaper,
   },
 ];
@@ -42,18 +49,18 @@ function Appsidebar() {
           <SidebarGroup className="px-6 py-9 flex flex-col gap-4 ">
             <div className="flex items-center">
               <SidebarGroupLabel className="text-[24px] text-gray-500 ">
-                Oyuka.Travel
+                Эрдэнэ.Travel
               </SidebarGroupLabel>
               <Plane className="text-[30px] text-gray-500" />
             </div>
             <SidebarGroupContent className="mt-[30px]">
               <SidebarMenu>
                 {items.map((item) => (
-                  <div key={item.id} className="text-gray-400 ">
+                  <div key={item.id} className="text-gray-400 py-[10px]">
                     {" "}
                     <SidebarMenuItem>
                       <SidebarMenuButton className="hover:bg-gray-200">
-                        <div className="flex items-center gap-2 pt-4 pb-3">
+                        <div className="flex items-center gap-2 pt-4 pb-6">
                           <a
                             href={item.url}
                             className="flex items-center gap-3"
